@@ -69,6 +69,20 @@ class PersonRepositoryImplTest {
         });
 
     }
+    @Test
+    void testFilterOnName() {
+        personRepository.findAll()
+                .filter(person -> person.getFirstName().equals("Muhammad "))
+                .subscribe(person -> System.out.println(person.getLastName()));
+    }
+
+    @Test
+    void testGetById() {
+        Mono<Person> idMono = personRepository.findAll().filter(person -> person.getFirstName().equals("Muhammad "))
+                .next();
+
+        idMono.subscribe(person -> System.out.println(person.getLastName()));
+    }
 }
 
 
