@@ -13,7 +13,7 @@ public class PersonRepositoryImpl implements PersonRepository {
     Person sirSyedAhmadKhan = Person.builder().id(1).firstName("Sir Syed ").lastName("Ahmad Khan").build();
     Person allamaIqbal = Person.builder().id(2).firstName("Muhammad ").lastName("Allama Iqbal").build();
     Person aliJinnah = Person.builder().id(3).firstName("Muhammad ").lastName("Ali Jinnah").build();
-    Person fatimaJinnah = Person.builder().id(4).firstName("Fatima ").lastName("Ali Jinnah").build();
+    Person fatimaJinnah = Person.builder().id(4).firstName("Fatima ").lastName(" Jinnah").build();
     @Override
     public Mono<Person> getById(Integer id) {
         return Mono.just(aliJinnah);
@@ -21,6 +21,6 @@ public class PersonRepositoryImpl implements PersonRepository {
 
     @Override
     public Flux<Person> findAll() {
-        return Flux.just(sirSyedAhmadKhan,allamaIqbal,allamaIqbal,fatimaJinnah);
+        return Flux.just(sirSyedAhmadKhan,allamaIqbal,aliJinnah,fatimaJinnah);
     }
 }
