@@ -13,6 +13,21 @@ class PersonRepositoryImplTest {
 
     PersonRepository personRepository = new PersonRepositoryImpl();
 
+
+
+    @Test
+    void testGetByIdFound() {
+        Mono<Person> personMono = personRepository.getById(3);
+
+        assertTrue(personMono.hasElement().block());
+    }
+
+    @Test
+    void testGetByIdNotFound() {
+        Mono<Person> personMono = personRepository.getById(6);
+
+        assertFalse(personMono.hasElement().block());
+    }
     @Test
     void testMonoByIdBlock() {
         Mono<Person> personMono = personRepository.getById(1);
@@ -65,7 +80,9 @@ class PersonRepositoryImplTest {
         Flux<Person> personFlux = personRepository.findAll();
         Mono<List<Person>> listMono = personFlux.collectList();
         listMono.subscribe(list -> {
-            list.forEach(person -> System.out.println(person.toString()));
+            list.forEach(person -> {
+                System.out.println(person.toString());
+            });
         });
 
     }
@@ -82,6 +99,25 @@ class PersonRepositoryImplTest {
                 .next();
 
         idMono.subscribe(person -> System.out.println(person.getLastName()));
+    }
+
+    @Test
+    void testFindPersonByIdNotFound() {
+        Flux<Person> personFlux = personRepository.findAll();
+         final Integer id=9;
+          Mono<Person> personMono =personFlux.filter(person -> {
+              return person.getId() == id;
+          }).single().doOnError(throwable ->
+          {
+              System.out.println("Error occurred in the mono");
+              System.out.println(throwable.toString());
+          });
+          personMono.subscribe(person -> {
+              System.out.println(person.toString());
+          }, throwable -> {
+              System.out.println("Error occurred in the mono");
+              System.out.println(throwable.toString());
+          });
     }
 }
 
